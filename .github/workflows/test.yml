@@ -1,5 +1,7 @@
 name: Tests
-on: [push, pull_request]
+
+on: [push, pull_request, workflow_dispatch]
+
 jobs:
   test:
     strategy:
@@ -30,14 +32,11 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: recursive
-
     - uses: iffy/install-nim@v5
       with:
         version: ${{ matrix.nim }}
-
     - name: Install
       run: nimble install -y
-
     - name: Build and run tests
       run: |
         eval nimble --verbose test -d:release --mm:refc
